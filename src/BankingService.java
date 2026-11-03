@@ -15,14 +15,26 @@ public class BankingService {
             System.out.println(customer.register());
         }
     }
+public void openAccount(Customer customer, Account account) {
 
-    public void openAccount(Customer customer, Account account) {
+    if (customer == null || account == null) {
+        return;
+    }
 
-        if (customer != null && account != null) {
-            customer.openAccount(account);
-            System.out.println("Account opened successfully.");
+    if (account instanceof InvestmentAccount) {
+
+        InvestmentAccount investment =
+                (InvestmentAccount) account;
+
+        if (!investment.validateInitialDeposit(account.getBalance())) {
+            System.out.println("Minimum investment deposit is 500.00.");
+            return;
         }
     }
+
+    customer.openAccount(account);
+    System.out.println("Account opened successfully.");
+}
 
     public void depositFunds(Account account, double amount) {
 
